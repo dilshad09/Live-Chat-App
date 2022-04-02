@@ -1,11 +1,11 @@
 import React from 'react'
-
+import styled from 'styled-components'
 function Chat() {
   return (
-    <div>
-      <h1>Chat app</h1>
-    </div>
+    <Container>
+      <div className="container"></div>
+    </Container>
   )
 }
-
+const Container = styled.div``
 export default Chat
