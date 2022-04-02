@@ -1,13 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios'
+
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../assets/logo.svg'
-function Register() {
-    const handleSubmit = (e)=>{
-        e.preventDefault()
+import { registerRoute } from '../utils/ApiRoutes';
 
+
+
+function Register() {
+  const [values, setValues] = useState({
+    username:"",
+    email:"",
+    password:"",
+    confirmPassword:""
+  })
+    const handleSubmit = async (e)=>{
+        e.preventDefault()
+        if(handleValidation()){
+      const {username, email, password, confirmPassword} = values;
+         const {data} = await axios.post(registerRoute,{username, email, password})
+        }
     }
-    const handleChange = ()=>{}
+    const toasOptions = {
+      position: "bottom-right",
+      autoClose: 8000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme:"dark"
+    }
+    const handleValidation = ()=>{
+      const {username, email, password, confirmPassword} = values;
+       if(password !== confirmPassword){
+         
+        toast.error("password and confirm password should be same", toasOptions)
+        return false;
+       }else if(username.length < 3){
+        toast.error("Invalid username", toasOptions)
+        return false;
+       }else if(email === ""){
+        toast.error("Email must required", toasOptions)
+        return false;
+       }
+       return true;
+    }
+    const handleChange = (e)=>{
+     setValues({...values, [e.target.name]:e.target.value}) 
+    }
+    
   return (
     <>
      <FormContainer>
@@ -24,6 +69,7 @@ function Register() {
                  <span>Already have an account ? <Link to="/login">login</Link></span>
          </form>
      </FormContainer>
+     <ToastContainer />
     </>
   )
 }
