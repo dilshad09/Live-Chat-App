@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
@@ -33,6 +33,12 @@ function Register() {
         }
     }
   }
+  useEffect(()=>{
+    if(localStorage.getItem("chat-app-user")){
+      navigate("/")
+    }
+  },[])
+  
     const toasOptions = {
       position: "bottom-right",
       autoClose: 8000,
@@ -62,6 +68,7 @@ function Register() {
      setValues({...values, [e.target.name]:e.target.value}) 
     }
     
+   
   return (
     <>
      <FormContainer>

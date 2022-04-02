@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
@@ -32,6 +32,13 @@ function Login() {
         }
     }
   }
+
+  useEffect(()=>{
+    if(localStorage.getItem("chat-app-user")){
+      navigate("/")
+    }
+  },[])
+
     const toasOptions = {
       position: "bottom-right",
       autoClose: 8000,
@@ -69,7 +76,7 @@ function Login() {
                  <input type="text" placeholder='Username' name='username' onChange={(e)=>handleChange(e)}/>
                  <input type="password" placeholder='Password' min={3} name='password' onChange={(e)=>handleChange(e)}/>
                  <button type='submit'>Login</button>
-                 <span>Create an account ? <Link to="/register">register</Link></span>
+                 <span>Don't have an account ? <Link to="/register">register</Link></span>
          </form>
      </FormContainer>
      <ToastContainer />
