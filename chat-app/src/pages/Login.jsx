@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Logo from '../assets/logo.svg'
-import { registerRoute } from '../utils/ApiRoutes';
+import { loginRoute } from '../utils/ApiRoutes';
 
 
 
@@ -14,15 +14,14 @@ function Login() {
   const navigate = useNavigate()
   const [values, setValues] = useState({
     username:"",
-    email:"",
     password:"",
-    confirmPassword:""
+    
   })
     const handleSubmit = async (e)=>{
         e.preventDefault()
         if(handleValidation()){
-      const {username, email, password, confirmPassword} = values;
-         const {data} = await axios.post(registerRoute,{username, email, password})
+      const {username, password} = values;
+         const {data} = await axios.post(loginRoute,{username, password})
         
         if(data.status === false){
           toast.error(data.msg, toasOptions)
@@ -44,16 +43,13 @@ function Login() {
       theme:"dark"
     }
     const handleValidation = ()=>{
-      const {username, email, password, confirmPassword} = values;
-       if(password !== confirmPassword){
+      const {username, password} = values;
+       if(password === ""){
          
-        toast.error("password and confirm password should be same", toasOptions)
+        toast.error("Email and password is required", toasOptions)
         return false;
-       }else if(username.length < 3){
-        toast.error("Invalid username", toasOptions)
-        return false;
-       }else if(email === ""){
-        toast.error("Email must required", toasOptions)
+       }else if(username.length === ""){
+        toast.error("Email and password is required", toasOptions)
         return false;
        }
        return true;
@@ -71,11 +67,9 @@ function Login() {
                  <h1>Snappy</h1>
             </div>
                  <input type="text" placeholder='Username' name='username' onChange={(e)=>handleChange(e)}/>
-                 <input type="email" placeholder='Email' name='email' onChange={(e)=>handleChange(e)}/>
-                 <input type="password" placeholder='Password' name='password' onChange={(e)=>handleChange(e)}/>
-                 <input type="password" placeholder='Confirm Password' name='confirmPassword' onChange={(e)=>handleChange(e)}/>
-                 <button type='submit'>Create User</button>
-                 <span>Already have an account ? <Link to="/login">login</Link></span>
+                 <input type="password" placeholder='Password' min={3} name='password' onChange={(e)=>handleChange(e)}/>
+                 <button type='submit'>Login</button>
+                 <span>Create an account ? <Link to="/register">register</Link></span>
          </form>
      </FormContainer>
      <ToastContainer />
