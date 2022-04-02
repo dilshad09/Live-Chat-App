@@ -2,12 +2,16 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 
+const userRoutes = require("./routes/user.route")
+
 require("dotenv").config()
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+
+app.use("/api/auth", userRoutes)
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser:true,
@@ -17,6 +21,6 @@ mongoose.connect(process.env.MONGO_URL, {
 }).catch((err)=>{
     console.log(err)
 })
-const server = app.listen(process.env.PORT, ()=>{
+ app.listen(process.env.PORT, ()=>{
     console.log(`server is running on the ${process.env.PORT}`)
 })
