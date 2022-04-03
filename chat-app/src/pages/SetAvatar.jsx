@@ -65,8 +65,10 @@ export default function SetAvatar() {
   }, []);
 
   useEffect( () => {
-    if (!JSON.parse(localStorage.getItem("chat-app-user")))
+    if (!JSON.parse(localStorage.getItem("chat-app-user"))){
       navigate("/login");
+    }
+      
   }, []);
 
   return (
